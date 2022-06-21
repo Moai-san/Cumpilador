@@ -1,0 +1,16 @@
+babak main
+{
+    pancet bool flag = bener;
+    babak number = 0;
+
+    nalika (flag)
+    {
+        number = number + 1;
+		nyetak ("Accion");
+	
+		yen (number == 10)
+	 	{
+			flag = palsu;
+		}
+    }
+}
