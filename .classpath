@@ -10,6 +10,6 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="C:/Users/Moai-San/Documents/GitHub/Cumpilador/Dependencies"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="lib" path="C:/Users/Moai-San/Documents/GitHub/Cumpilador/Dependencies/antlr-4.7.1-complete.jar"/>
+	<classpathentry kind="lib" path="Dependencies/antlr-4.7.1-complete.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
