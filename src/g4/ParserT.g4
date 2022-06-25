@@ -6,7 +6,7 @@ program: INT MAIN BRACE_OPEN codigo+ BRACE_CLOSE ((INT | CHAR | REAL | VOID | BO
 codigo: declaracion | escribir | leer | si | hacer_mientras | mientras | para | reasignar ;
 
 declaracion: CONSTANT? CHAR NAME_VAR (ASSIGN (NAME_VAR | WORDS | NUMBER))? SEMICOLON |
-		     CONSTANT? INT NAME_VAR (ASSIGN (NAME_VAR | NUMBER))? SEMICOLON |
+		     CONSTANT? INT NAME_VAR (ASSIGN (NAME_VAR | NUMBER | funcion_matematica))? SEMICOLON |
 		     CONSTANT? REAL NAME_VAR (ASSIGN (NAME_VAR | NUMBER))? SEMICOLON |
 		     CONSTANT? BOOLEAN NAME_VAR (ASSIGN (NAME_VAR | VAL_BOOLEAN))? SEMICOLON ;
 
@@ -22,7 +22,10 @@ mientras: WHILE PAR_OPEN condicion PAR_CLOSE BRACE_OPEN bloque BRACE_CLOSE ;
 
 para: FOR PAR_OPEN (declaracion | NAME_VAR)? COMMA condicion COMMA calculo PAR_CLOSE BRACE_OPEN bloque BRACE_CLOSE ;
 
-reasignar: NAME_VAR ASSIGN (WORDS | VAL_BOOLEAN | calculo) SEMICOLON ;
+reasignar: NAME_VAR ASSIGN (WORDS | VAL_BOOLEAN | calculo | funcion_matematica) SEMICOLON ;
+
+funcion_matematica: MOD PAR_OPEN (NAME_VAR | NUMBER) COMMA (NAME_VAR | NUMBER) PAR_CLOSE |
+					FACT PAR_OPEN (NAME_VAR | NUMBER) PAR_CLOSE ;
 
 
 condicion: NAME_VAR | NUMBER | VAL_BOOLEAN | condicion OP_SIMBOLS condicion | NOT? PAR_OPEN condicion PAR_CLOSE ;

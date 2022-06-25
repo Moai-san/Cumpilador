@@ -12,13 +12,12 @@ VOID: 'void' ;
 BOOLEAN: 'bool' ;
 
 //Operadores matematicos
-MAT_SIMBOLS: PLUS | MINUS | MULT | DIV | MOD | POW ;
+MAT_SIMBOLS: PLUS | MINUS | MULT | DIV | POW ;
 
 PLUS: '+' ;
 MINUS: '-' ;
 MULT: '*' ;
 DIV: '/' ;
-MOD: '%' ;
 POW: '^' ;
 
 //Operadores
@@ -67,15 +66,16 @@ PI: '3,14159265358' ;
 
 //Funciones matematicas
 FACT: 'FACT' ; // Factorial
+MOD: 'MOD' ; // Modulo
 SIN: 'SIN' ; // Seno
 COS: 'COS' ; // Coseno
 
-
 NAME_VAR: LOWER_CHAR (LOWER_CHAR | UPPER_CHAR | DIGIT | '_' | '-')* ; // Nombre de variables, parten con letra minuscula obligatoriamente y luego aceptan minusculas, mayusculas, numeros y guiones
-NUMBER: '-'? DIGIT+ ('.' DIGIT+)? ; // Numeros negativos y positivos
+NUMBER: '-'? DIGIT+ ('.' DIGIT+)? ; // Numeros flotantes negativos y positivos
 WORDS: '"' (~["\\] | '\\' .)* '"' ; //Admite oraciones como una sola palabra y espacios pero debe ser obligatoriamente entre " ".
 
+
 fragment LOWER_CHAR: [a-z] ;
-fragment UPPER_CHAR: [A-Z] ; 
+fragment UPPER_CHAR: [A-Z] ;
 fragment DIGIT: [0-9] ;
 WS: [ \t\r\n]+ -> skip ;

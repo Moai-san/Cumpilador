@@ -17,6 +17,7 @@ import antlr.ParserTParser.ParaContext;
 import antlr.ParserTParser.ReasignarContext;
 import antlr.ParserTParser.CondicionContext;
 import antlr.ParserTParser.CalculoContext;
+import antlr.ParserTParser.Funcion_matematicaContext;
 
 public class MyVisitor extends ParserTBaseVisitor<Integer>
 {
@@ -84,6 +85,12 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 
 	@Override
 	public Integer visitCalculo(CalculoContext ctx)
+	{
+		return 0;
+	}
+	
+	@Override
+	public Integer visitFuncion_matematica(Funcion_matematicaContext ctx)
 	{
 		return 0;
 	}

@@ -1,6 +1,5 @@
 // Generated from ParserT.g4 by ANTLR 4.7.1
 package antlr;
-
 import org.antlr.v4.runtime.tree.ParseTreeVisitor;
 
 /**
@@ -71,6 +70,12 @@ public interface ParserTVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitReasignar(ParserTParser.ReasignarContext ctx);
+	/**
+	 * Visit a parse tree produced by {@link ParserTParser#funcion_matematica}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitFuncion_matematica(ParserTParser.Funcion_matematicaContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link ParserTParser#condicion}.
 	 * @param ctx the parse tree
