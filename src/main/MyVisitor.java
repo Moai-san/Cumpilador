@@ -22,13 +22,7 @@ import antlr.ParserTParser.Funcion_matematicaContext;
 public class MyVisitor extends ParserTBaseVisitor<Integer>
 {
 	//podria definir structs, hacer un mapa de object y complejizar mas, pero hacerlo mas solido :thinking_emoji:
-	private HashMap<String, VarPair> variables = new HashMap<String, VarPair>();
-	
-	// Este metodo es para probar lo que contienen las variables que se crean en desarrollo, una ves este listo el "MyVisitor" se debe eliminar porque es inncesesario.
-	public void printvar()
-	{
-		System.out.print(this.variables);
-	}
+	private HashMap<String, VarPair> buffer = new HashMap<String, VarPair>();
 	
 	@Override
 	public Integer visitDeclaracion(DeclaracionContext ctx)
