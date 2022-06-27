@@ -46,12 +46,12 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 
 		if(texto == null)
 		{
-			System.out.print("NULL");
+			System.out.println("NULL");
 			return 1;
 		}
 		else
 		{
-			System.out.print(texto);
+			System.out.println(texto);
 			return 0;
 		}
 	}
