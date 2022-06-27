@@ -1,0 +1,19 @@
+babak main
+{
+    pancet bool flag = bener;
+    babak number;
+
+    yen (flag)
+    {
+        nyetak ("Variable es verdadera");
+        number = FACT(9);
+    }
+    liyane
+    {
+        nyetak ("Variable es falsa");
+        number = MOD(10,4);
+    }
+
+    nyetak ("El numero es:");
+    nyetak (number);
+}

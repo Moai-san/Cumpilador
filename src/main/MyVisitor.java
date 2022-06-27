@@ -21,7 +21,8 @@ import antlr.ParserTParser.Funcion_matematicaContext;
 
 public class MyVisitor extends ParserTBaseVisitor<Integer>
 {
-	private Map<String, String> variables = new HashMap<String, String>();
+	//podria definir structs, hacer un mapa de object y complejizar mas, pero hacerlo mas solido :thinking_emoji:
+	private HashMap<String, VarPair> variables = new HashMap<String, VarPair>();
 	
 	// Este metodo es para probar lo que contienen las variables que se crean en desarrollo, una ves este listo el "MyVisitor" se debe eliminar porque es inncesesario.
 	public void printvar()
@@ -38,12 +39,45 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	@Override
 	public Integer visitEscribir(EscribirContext ctx)
 	{
-		return 0;
+		String texto;
+
+		if(ctx.NAME_VAR() == null)
+		{
+			texto = ctx.WORDS().getText();
+		}
+		else
+		{
+			texto = buffer.get(ctx.NAME_VAR().getText()).getvalue();
+		}
+
+		if(texto == null)
+		{
+			System.out.print("NULL");
+			return 1;
+		}
+		else
+		{
+			System.out.print(texto);
+			return 0;
+		}
 	}
 
 	@Override
 	public Integer visitLeer(LeerContext ctx)
 	{
+		Scanner s = new Scanner(System.in);
+
+		if((buffer.get(ctx.NAME_VAR().getText())).getvalue().contains("pancet"))
+		{
+			return 1;
+		}
+
+		String type = buffer.get(ctx.NAME_VAR().getText()).getvalue();
+		VarPair toPut = new VarPair();
+
+		toPut.setvalue(s.nextLine());
+		toPut.setType(type);
+
 		return 0;
 	}
 
@@ -93,5 +127,37 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	public Integer visitFuncion_matematica(Funcion_matematicaContext ctx)
 	{
 		return 0;
+	}
+}
+
+final class VarPair
+{
+	private String type;
+	private String value;
+
+	public String getType()
+	{
+		return(type);
+	}
+	
+	public String getvalue()
+	{
+		return(value);
+	}
+	
+	public void setType(String tipo)
+	{
+		type=tipo;
+	}
+	
+	public void setvalue(String valor)
+	{
+		value=valor;
+	}
+	
+	public VarPair()
+	{
+		type = new String();
+		value = new String();
 	}
 }

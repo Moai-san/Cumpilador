@@ -1,14 +1,15 @@
 babak main
 {
     pancet bool flag = bener;
-    babak number = 0;
+    babak number = MOD(1,1);
 
     nalika (flag)
     {
-        number = number + 1;
+        number = FACT(3);
 		nyetak ("Accion");
+        nyetak (number);
 	
-		yen (number == 10)
+		yen (number == 6)
 	 	{
 			flag = palsu;
 		}
