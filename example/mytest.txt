@@ -1,0 +1,6 @@
+babak main
+{
+    pancet bool flag = bener;
+    pancet bool flag2 = palsu;
+    pancet bool flag3 = bener;
+}
