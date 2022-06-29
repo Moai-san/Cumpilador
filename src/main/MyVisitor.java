@@ -284,15 +284,16 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	}
 	
 	@Override
-	public Integer visitSi(SiContext ctx)
+	public Integer visitSi(SiContext ctx) //falta realizarlo
 	{
 		return 0;
 	}
 
 	@Override
-	public Integer visitCondicion(CondicionContext ctx)//operadores de comparacion
+	public Integer visitCondicion(CondicionContext ctx)//operadores de comparacion, revisar cambios, PRIORIDAD
 	{
 		Integer x;
+		/*
 		for(int i=0;i< ctx.condicion().size();i++)
 		{
 			if(ctx.condicion(i)!=null)
@@ -319,8 +320,10 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 				
 			}
 		}
+		*/
 		return 0;
 	}
+	
 	@Override
 	public Integer visitFuncion_matematica(Funcion_matematicaContext ctx)//ok
 	{
@@ -388,14 +391,13 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		return 1;
 	}
 	
-	/*
-	 
 	 @Override
-	public Integer visitCalculo(CalculoContext ctx)//operadores unarios
+	public Integer visitCalculo(CalculoContext ctx)//operadores unarios, falta realizarlo, PRIORIDAD
 	{
 		return 0;
 	}
-	
+	 
+	/*
 	@Override
 	public Integer visitHacer_mientras(Hacer_mientrasContext ctx)
 	{
@@ -412,7 +414,8 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	public Integer visitPara(ParaContext ctx)
 	{
 		return 0;
-	}*/
+	}
+	*/
 }
 
 
@@ -437,7 +440,6 @@ final class VarClass
 	{
 		return(isConst);
 	}
-	
 	
 	public void setType(String tipo)
 	{

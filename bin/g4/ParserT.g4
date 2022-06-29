@@ -27,7 +27,8 @@ reasignar: NAME_VAR ASSIGN (WORDS | VAL_BOOLEAN | calculo | funcion_matematica) 
 funcion_matematica: MOD PAR_OPEN (NAME_VAR | NUMBER) COMMA (NAME_VAR | NUMBER) PAR_CLOSE |
 					FACT PAR_OPEN (NAME_VAR | NUMBER) PAR_CLOSE ;
 
+condicion: (NOT? PAR_OPEN (NAME_VAR | NUMBER | VAL_BOOLEAN) OP_SIMBOLS (NAME_VAR | NUMBER | VAL_BOOLEAN) PAR_CLOSE OP_SIMBOLS?)+ ;
 
-condicion: NAME_VAR | NUMBER | VAL_BOOLEAN | condicion OP_SIMBOLS condicion | NOT? PAR_OPEN condicion PAR_CLOSE ;
-calculo: NAME_VAR | NUMBER | calculo MAT_SIMBOLS calculo | PAR_OPEN calculo PAR_CLOSE ;
+calculo: (PAR_OPEN? (NAME_VAR | NUMBER) (MAT_SIMBOLS (NAME_VAR | NUMBER))* PAR_CLOSE? MAT_SIMBOLS?)+ ;
+
 bloque: codigo+ ;
