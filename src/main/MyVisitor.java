@@ -187,6 +187,10 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		declaredVar.setType(searchType(ctx.CHAR(),ctx.INT(),ctx.REAL(),ctx.BOOLEAN()));
 		//seteo de valor a variable
 		declaredVar.setvalue(searchValue(declaredVar.getType(),ctx.NUMBER(),ctx.WORDS(),ctx.VAL_BOOLEAN()));
+		if(declaredVar.getvalue()==null)
+		{
+			declaredVar.setvalue(visitFuncion_matematica(ctx.funcion_matematica()).toString());
+		}
 		System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",declaredVar.getIsConst(), declaredVar.getType(),ctx.NAME_VAR(0),declaredVar.getvalue());// --> testing de que funca
 		buffer.put(ctx.NAME_VAR(0).getText(), declaredVar);
 		return(0);
@@ -226,6 +230,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		if(toPut.getIsConst()==true)
 		{
 			System.out.println("PERO COMO VAS A REASIGNAR UNA CONSTANTE AAAAAAAA 7-7)9 ");
+			s.close();
 			return 1;
 		}
 
@@ -233,15 +238,17 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		if(assertType(toPut.getType(),a)==true)
 		{
 			toPut.setvalue(a);
+			s.close();
 			return 0;
 		}
 		System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
+		s.close();
 		return 1;
 
 	}
 
 	@Override
-	public Integer visitReasignar(ReasignarContext ctx) //no entiendo el parser awa
+	public Integer visitReasignar(ReasignarContext ctx) //falta caso calculo
 	{
 		VarClass toAssign =buffer.get(ctx.NAME_VAR().getText());
 		if(toAssign==null)
@@ -254,10 +261,22 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			System.out.println("PERO COMO VAS A REASIGNAR UNA CONSTANTE AAAAAAAA 7-7)9 ");
 			return(1);
 		}
-		if(assertType(toAssign.getType(),ctx.WORDS().getText())==true)
+		//validar tipos
+		if(ctx.WORDS()!=null)
 		{
-			toAssign.setvalue(ctx.WORDS().getText());
-			return 0;
+			if(assertType(toAssign.getType(),ctx.WORDS().getText())==true)
+			{
+				toAssign.setvalue(ctx.WORDS().getText());
+				return 0;
+			}
+		}
+		else
+		{
+			if(ctx.funcion_matematica()!=null)
+			{
+				toAssign.setvalue(visitFuncion_matematica(ctx.funcion_matematica()).toString());
+				return 0;
+			}
 		}
 		System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
 		
@@ -273,24 +292,110 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	@Override
 	public Integer visitCondicion(CondicionContext ctx)//operadores de comparacion
 	{
+		Integer x;
+		for(int i=0;i< ctx.condicion().size();i++)
+		{
+			if(ctx.condicion(i)!=null)
+			{
+				x =visitCondicion(ctx.condicion(i));
+			}
+			if(ctx.VAL_BOOLEAN()!=null)
+			{
+				if(ctx.VAL_BOOLEAN().getText().equals("bener"))
+				{
+					return(1);
+				}
+				else
+				{
+					return(0);
+				}
+			}
+			if(ctx.NAME_VAR()!=null)
+			{
+				
+			}
+			if(ctx.NUMBER()!=null)
+			{
+				
+			}
+		}
 		return 0;
 	}
-
 	@Override
-	public Integer visitCalculo(CalculoContext ctx)//operadores unarios
+	public Integer visitFuncion_matematica(Funcion_matematicaContext ctx)//ok
 	{
-		ctx.calculo(0).calculo(0).calculo(0);
-		ctx.calculo(1);
-		return 0;
-	}
-	
-	@Override
-	public Integer visitFuncion_matematica(Funcion_matematicaContext ctx)//mod y factorial
-	{
-		return 0;
+		Double output;
+		Double n =null;
+		Double m =null; 
+		if(ctx.MOD()!=null)
+		{
+			for(int i=0;i<2;i++)
+			{
+				if(ctx.NAME_VAR(i)!=null)
+				{
+					if ( buffer.get(ctx.NAME_VAR(i).getText()).getType().equals("float") || buffer.get(ctx.NAME_VAR(i).getText()).getType().equals("int"))
+					{
+						if(n!=null)
+						{
+							m =Double.parseDouble(buffer.get(ctx.NAME_VAR(i).getText()).getvalue());
+							continue;
+						}
+						else
+						{
+							n =Double.parseDouble(buffer.get(ctx.NAME_VAR(i).getText()).getvalue());
+							continue;
+						}
+					}
+					
+				}
+				if(ctx.NUMBER(i)!=null)
+				{
+					if(n!=null)
+					{
+						m =Double.parseDouble(ctx.NUMBER(i).getText());
+						continue;
+					}
+					else
+					{
+						n =Double.parseDouble(ctx.NUMBER(i).getText());
+						continue;
+					}
+				}
+			}
+			output=(n%m);
+			return(output.intValue());
+		}
+		if(ctx.FACT()!=null)
+		{
+			if(ctx.NAME_VAR(0)!=null)
+			{
+				if ( buffer.get(ctx.NAME_VAR(0).getText()).getType().equals("float") || buffer.get(ctx.NAME_VAR(0).getText()).getType().equals("int"))
+				{
+					m =Double.parseDouble(buffer.get(ctx.NAME_VAR(0).getText()).getvalue());
+				}
+			}
+			if(ctx.NUMBER(0)!=null)
+			{
+				m =Double.parseDouble(ctx.NUMBER(0).getText());
+			}
+			output=1.0;
+			for(int i= 1;i<=m;i++)
+			{
+				output= output*i;
+			}
+			return(output.intValue());
+		}
+		return 1;
 	}
 	
 	/*
+	 
+	 @Override
+	public Integer visitCalculo(CalculoContext ctx)//operadores unarios
+	{
+		return 0;
+	}
+	
 	@Override
 	public Integer visitHacer_mientras(Hacer_mientrasContext ctx)
 	{
