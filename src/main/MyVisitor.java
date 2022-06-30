@@ -463,6 +463,19 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 				a=(Integer.parseInt(ctx.NUMBER(i).getText()));
 				continue;
 			}
+			else
+			{
+				if(ctx.NUMBER(0)!=null)
+				{
+					if(a!=null)
+					{
+						b=(Integer.parseInt(ctx.NUMBER(0).getText()));
+						continue;
+					}
+					a=(Integer.parseInt(ctx.NUMBER(0).getText()));
+					continue;
+				}
+			}
 			if((ctx.VAL_BOOLEAN(i)!=null))
 			{
 				if(ctx.VAL_BOOLEAN(i).getText().equals("bener"))
@@ -488,25 +501,28 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			}
 			else
 			{
-				if(ctx.VAL_BOOLEAN(0).getText().equals("bener"))
+				if((ctx.VAL_BOOLEAN(0)!=null))
 				{
-					if(a!=null)
+					if(ctx.VAL_BOOLEAN(0).getText().equals("bener"))
 					{
-						b=1;
+						if(a!=null)
+						{
+							b=1;
+							continue;
+						}
+						a=1;
 						continue;
 					}
-					a=1;
-					continue;
-				}
-				else
-				{
-					if(a!=null)
+					else
 					{
-						b=0;
+						if(a!=null)
+						{
+							b=0;
+							continue;
+						}
+						a=0;
 						continue;
 					}
-					a=0;
-					continue;
 				}
 			}
 		}
