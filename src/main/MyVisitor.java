@@ -389,29 +389,6 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		
 		for(int i=0; i<2 ;i++)
 		{
-			if(ctx.VAL_BOOLEAN(i)!=null)
-			{
-				if(ctx.VAL_BOOLEAN(i).getText().equals("bener"))
-				{
-					if(a!=null)
-					{
-						b=1;
-						continue;
-					}
-					a=1;
-					continue;
-				}
-				else
-				{
-					if(a!=null)
-					{
-						b=0;
-						continue;
-					}
-					a=0;
-					continue;
-				}
-			}
 			if(ctx.NAME_VAR(i)!=null)
 			{
 				if((buffer.get(ctx.NAME_VAR(i).getText()))!=null)
@@ -452,26 +429,26 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 						}
 						case("boolean"):
 						{
-								if(((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()).equals("bener"))
+							if(((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()).equals("bener"))
+							{
+								if(a!=null)
 								{
-									if(a!=null)
-									{
-										b=1;
-										continue;
-									}
-									a=1;
+									b=1;
 									continue;
 								}
-								else
+								a=1;
+								continue;
+							}
+							else
+							{
+								if(a!=null)
 								{
-									if(a!=null)
-									{
-										b=0;
-										continue;
-									}
-									a=0;
+									b=0;
 									continue;
 								}
+								a=0;
+								continue;
+							}
 						}
 					}
 				}
@@ -483,8 +460,54 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 					b=(Integer.parseInt(ctx.NUMBER(i).getText()));
 					continue;
 				}
-				b=(Integer.parseInt(ctx.NUMBER(i).getText()));
+				a=(Integer.parseInt(ctx.NUMBER(i).getText()));
 				continue;
+			}
+			if((ctx.VAL_BOOLEAN(i)!=null))
+			{
+				if(ctx.VAL_BOOLEAN(i).getText().equals("bener"))
+				{
+					if(a!=null)
+					{
+						b=1;
+						continue;
+					}
+					a=1;
+					continue;
+				}
+				else
+				{
+					if(a!=null)
+					{
+						b=0;
+						continue;
+					}
+					a=0;
+					continue;
+				}
+			}
+			else
+			{
+				if(ctx.VAL_BOOLEAN(0).getText().equals("bener"))
+				{
+					if(a!=null)
+					{
+						b=1;
+						continue;
+					}
+					a=1;
+					continue;
+				}
+				else
+				{
+					if(a!=null)
+					{
+						b=0;
+						continue;
+					}
+					a=0;
+					continue;
+				}
 			}
 		}
 		boolean eval=false;
@@ -508,30 +531,36 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			}
 			case(">"):
 			{
-				eval=a>b;
+				eval=(a>b);
+				break;
 			}
 			case("<"):
 			{
-				eval=a<b;
+				eval=(a<b);
+				break;
 			}
 			case(">="):
 			{
-				eval=a>=b;
+				eval=(a>=b);
+				break;
 			}
 			case("<="):
 			{
-				eval=a<=b;
+				eval=(a<=b);
+				break;
 			}
 			case("=="):
 			{
-				eval=a==b;
+				eval=(a==b);
+				break;
 			}
 			case("!="):
 			{
-				eval=a!=b;
+				eval=(a!=b);
+				break;
 			}
 		}
-		if(eval!=false)
+		if(eval==true)
 		{
 			return(1);
 		}

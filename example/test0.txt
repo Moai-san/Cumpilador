@@ -3,7 +3,7 @@ babak main
     pancet bool flag = palsu;
     babak number;
 
-    yen ((1 < 1000))
+    yen ((flag == palsu))
     {
         nyetak ("Variable es verdadera");
         number = FACT(9);
