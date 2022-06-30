@@ -196,6 +196,8 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		{
 			declaredVar.setvalue(null);
 			buffer.put(ctx.NAME_VAR(0).getText(), declaredVar);
+			System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",declaredVar.getIsConst(), declaredVar.getType(),ctx.NAME_VAR(),declaredVar.getvalue());
+			return 0;
 		}
 		//seteo de valor a variable
 		declaredVar.setvalue(searchValue(declaredVar.getType(),ctx.NUMBER(),ctx.WORDS(),ctx.VAL_BOOLEAN()));
@@ -279,6 +281,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			if(assertType(toAssign.getType(),ctx.NUMBER().getText())==true)
 			{
 				toAssign.setvalue(ctx.NUMBER().getText());
+				System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",toAssign.getIsConst(), toAssign.getType(),ctx.NAME_VAR(),toAssign.getvalue());
 				return 0;
 			}
 			System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
@@ -290,6 +293,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			if(assertType(toAssign.getType(),ctx.WORDS().getText())==true)
 			{
 				toAssign.setvalue(ctx.WORDS().getText());
+				System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",toAssign.getIsConst(), toAssign.getType(),ctx.NAME_VAR(),toAssign.getvalue());
 				return 0;
 			}
 			System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
@@ -303,6 +307,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 				if(assertType(toAssign.getType(),visitFuncion_matematica(ctx.funcion_matematica()).toString()))
 				{
 					toAssign.setvalue(visitFuncion_matematica(ctx.funcion_matematica()).toString());
+					System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",toAssign.getIsConst(), toAssign.getType(),ctx.NAME_VAR(),toAssign.getvalue());
 					return 0;
 				}
 				System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
@@ -318,11 +323,13 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 						if((assertType(toAssign.getType(),forMath.toString())))
 						{
 							toAssign.setvalue(forMath.toString());
+							System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",toAssign.getIsConst(), toAssign.getType(),ctx.NAME_VAR(),toAssign.getvalue());
 							return 0;
 						}
 						if(assertType(toAssign.getType(),toInt().toString()))
 						{
 							toAssign.setvalue(toInt().toString());
+							System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",toAssign.getIsConst(), toAssign.getType(),ctx.NAME_VAR(),toAssign.getvalue());
 							return 0;
 						}
 						System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
@@ -346,6 +353,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 						if(assertType(toAssign.getType(),x))
 						{
 							toAssign.setvalue(x);
+							System.out.printf("isConst? %b dataType= %s name= %s value= %s\n",toAssign.getIsConst(), toAssign.getType(),ctx.NAME_VAR(),toAssign.getvalue());
 							return 0;
 						}
 						System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
@@ -404,7 +412,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 					continue;
 				}
 			}
-			if(ctx.NAME_VAR()!=null)
+			if(ctx.NAME_VAR(i)!=null)
 			{
 				if((buffer.get(ctx.NAME_VAR(i).getText()))!=null)
 				{

@@ -1,9 +1,9 @@
 babak main
 {
-    pancet bool flag = bener;
+    pancet bool flag = palsu;
     babak number;
 
-    yen (flag)
+    yen ((1 < 1000))
     {
         nyetak ("Variable es verdadera");
         number = FACT(9);
