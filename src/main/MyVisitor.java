@@ -164,6 +164,12 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			}
 		}
 	}
+
+	private String toInt()
+	{
+		Integer y= (forMath.intValue());
+		return(y.toString());
+	}
 	
 	@Override
 	public Integer visitDeclaracion(DeclaracionContext ctx)//ok
@@ -302,11 +308,16 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			{
 				if(ctx.calculo()!=null)
 				{
-					if(visitFuncion_matematica(ctx.funcion_matematica())!=1)
+					if(visitCalculo(ctx.calculo())!=1)
 					{
-						if(assertType(toAssign.getType(),forMath.toString()))
+						if((assertType(toAssign.getType(),forMath.toString())))
 						{
 							toAssign.setvalue(forMath.toString());
+							return 0;
+						}
+						if(assertType(toAssign.getType(),toInt().toString()))
+						{
+							toAssign.setvalue(toInt().toString());
 							return 0;
 						}
 						System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
