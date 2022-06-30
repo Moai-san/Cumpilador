@@ -589,7 +589,17 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			
 			for(int i=0; i<2 ;i++)
 			{
-				if(ctx.NAME_VAR()!=null)
+				if(ctx.NUMBER(i)!=null)
+				{
+					if(a!=null)
+					{
+						b=(Double.parseDouble(ctx.NUMBER(i).getText()));
+						continue;
+					}
+					b=(Double.parseDouble(ctx.NUMBER(i).getText()));
+					continue;
+				}
+				if(ctx.NAME_VAR(i)!=null)
 				{
 					if((buffer.get(ctx.NAME_VAR(i).getText()))!=null)
 					{
@@ -628,16 +638,6 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 							}
 						}
 					}
-				}
-				if(ctx.NUMBER(i)!=null)
-				{
-					if(a!=null)
-					{
-						b=(Double.parseDouble(ctx.NUMBER(i).getText()));
-						continue;
-					}
-					b=(Double.parseDouble(ctx.NUMBER(i).getText()));
-					continue;
 				}
 			}
 			switch(ctx.MAT_SIMBOLS().getText())
