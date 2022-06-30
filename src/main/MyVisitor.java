@@ -263,6 +263,17 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 			return(1);
 		}
 		//validar tipos
+		if(ctx.NUMBER()!=null)
+		{
+			if(assertType(toAssign.getType(),ctx.NUMBER().getText())==true)
+			{
+				toAssign.setvalue(ctx.NUMBER().getText());
+				return 0;
+			}
+			System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
+			System.out.println("REASIGNACION INVALIDA, NO SE HICIERON CAMBIOS");
+			return 1;
+		}
 		if(ctx.WORDS()!=null)
 		{
 			if(assertType(toAssign.getType(),ctx.WORDS().getText())==true)
