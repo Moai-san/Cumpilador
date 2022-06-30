@@ -192,6 +192,11 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 		}
 		//seteo de token de tipo para casteos
 		declaredVar.setType(searchType(ctx.CHAR(),ctx.INT(),ctx.REAL(),ctx.BOOLEAN()));
+		if(ctx.ASSIGN()==null)
+		{
+			declaredVar.setvalue(null);
+			buffer.put(ctx.NAME_VAR(0).getText(), declaredVar);
+		}
 		//seteo de valor a variable
 		declaredVar.setvalue(searchValue(declaredVar.getType(),ctx.NUMBER(),ctx.WORDS(),ctx.VAL_BOOLEAN()));
 		if(declaredVar.getvalue()==null)
