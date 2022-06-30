@@ -333,8 +333,16 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	}
 	
 	@Override
-	public Integer visitSi(SiContext ctx) //falta realizarlo
+	public Integer visitSi(SiContext ctx) //ok
 	{
+		if(visitCondicion(ctx.condicion())==1)
+		{
+			visitBloque(ctx.bloque(0));
+		}
+		else
+		{
+			visitBloque(ctx.bloque(1));
+		}		
 		return 0;
 	}
 
@@ -453,6 +461,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 				{
 					return 0;
 				}
+				return 1;
 			}
 			case("&"):
 			{
@@ -460,6 +469,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 				{
 					return 0;
 				}
+				return 1;
 			}
 			case(">"):
 			{
