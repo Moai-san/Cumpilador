@@ -1,8 +1,0 @@
-babak main
-{
-    pancet bool flag = bener;
-    pancet bool flag2 = palsu;
-    pancet bool flag3 = bener;
-    babak sum =FACT(-1);
-    sum =FACT(2);
-}
