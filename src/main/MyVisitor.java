@@ -25,6 +25,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 {
 	//podria definir structs, hacer un mapa de object y complejizar mas, pero hacerlo mas solido :thinking_emoji:
 	private HashMap<String, VarClass> buffer = new HashMap<String, VarClass>();
+	private Double forMath;
 	
 	//buscar tipo de variable
 	private String searchType(TerminalNode charT, TerminalNode intT,TerminalNode realT,TerminalNode boolT)
@@ -248,7 +249,7 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	}
 
 	@Override
-	public Integer visitReasignar(ReasignarContext ctx) //falta caso calculo
+	public Integer visitReasignar(ReasignarContext ctx) //ok
 	{
 		VarClass toAssign =buffer.get(ctx.NAME_VAR().getText());
 		if(toAssign==null)
@@ -269,16 +270,64 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 				toAssign.setvalue(ctx.WORDS().getText());
 				return 0;
 			}
+			System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
+			System.out.println("REASIGNACION INVALIDA, NO SE HICIERON CAMBIOS");
+			return 1;
 		}
 		else
 		{
 			if(ctx.funcion_matematica()!=null)
 			{
-				toAssign.setvalue(visitFuncion_matematica(ctx.funcion_matematica()).toString());
-				return 0;
+				if(assertType(toAssign.getType(),visitFuncion_matematica(ctx.funcion_matematica()).toString()))
+				{
+					toAssign.setvalue(visitFuncion_matematica(ctx.funcion_matematica()).toString());
+					return 0;
+				}
+				System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
+				System.out.println("REASIGNACION INVALIDA, NO SE HICIERON CAMBIOS");
+				return 1;
+			}
+			else
+			{
+				if(ctx.calculo()!=null)
+				{
+					if(visitFuncion_matematica(ctx.funcion_matematica())!=1)
+					{
+						if(assertType(toAssign.getType(),forMath.toString()))
+						{
+							toAssign.setvalue(forMath.toString());
+							return 0;
+						}
+						System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
+						System.out.println("REASIGNACION INVALIDA, NO SE HICIERON CAMBIOS");
+						return 1;
+					}
+				}
+				else
+				{
+					if(ctx.VAL_BOOLEAN()!=null)
+					{
+						String x =ctx.VAL_BOOLEAN().getText();
+						if(x.equals("bener"))
+						{
+							x="true";
+						}
+						else
+						{
+							x="false";
+						}
+						if(assertType(toAssign.getType(),x))
+						{
+							toAssign.setvalue(x);
+							return 0;
+						}
+						System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
+						System.out.println("REASIGNACION INVALIDA, NO SE HICIERON CAMBIOS");
+						return 1;
+					}
+				}
 			}
 		}
-		System.out.println("EPA PAPULINCE, LOS TIPOS NO CALZAN 7-7)9 ");
 		
 		return 0;
 	}
@@ -290,37 +339,157 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	}
 
 	@Override
-	public Integer visitCondicion(CondicionContext ctx)//operadores de comparacion, revisar cambios, PRIORIDAD
+	public Integer visitCondicion(CondicionContext ctx)//ok
 	{
-		Integer x;
-		/*
-		for(int i=0;i< ctx.condicion().size();i++)
+		Integer a=null;
+		Integer b=null;
+		
+		for(int i=0; i<2 ;i++)
 		{
-			if(ctx.condicion(i)!=null)
+			if(ctx.VAL_BOOLEAN(i)!=null)
 			{
-				x =visitCondicion(ctx.condicion(i));
-			}
-			if(ctx.VAL_BOOLEAN()!=null)
-			{
-				if(ctx.VAL_BOOLEAN().getText().equals("bener"))
+				if(ctx.VAL_BOOLEAN(i).getText().equals("bener"))
 				{
-					return(1);
+					if(a!=null)
+					{
+						b=1;
+						continue;
+					}
+					a=1;
+					continue;
 				}
 				else
 				{
-					return(0);
+					if(a!=null)
+					{
+						b=0;
+						continue;
+					}
+					a=0;
+					continue;
 				}
 			}
 			if(ctx.NAME_VAR()!=null)
 			{
-				
+				if((buffer.get(ctx.NAME_VAR(i).getText()))!=null)
+				{
+					String type =((buffer.get(ctx.NAME_VAR(i).getText())).getType());
+					switch (type)
+					{
+						case("char"):
+						{
+							if(a!=null)
+							{
+								b=1;
+								continue;
+							}
+							a=1;
+							continue;
+						}
+						case("int"):
+						{
+							if(a!=null)
+							{
+								b=(Integer.parseInt((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+								continue;
+							}
+							a=(Integer.parseInt((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+							continue;
+						}
+						case("float"):
+						{
+							Double c=(Double.parseDouble((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+							if(a!=null)
+							{
+								b=c.intValue();
+								continue;
+							}
+							a=c.intValue();
+							continue;
+						}
+						case("boolean"):
+						{
+								if(((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()).equals("bener"))
+								{
+									if(a!=null)
+									{
+										b=1;
+										continue;
+									}
+									a=1;
+									continue;
+								}
+								else
+								{
+									if(a!=null)
+									{
+										b=0;
+										continue;
+									}
+									a=0;
+									continue;
+								}
+						}
+					}
+				}
 			}
-			if(ctx.NUMBER()!=null)
+			if(ctx.NUMBER(i)!=null)
 			{
-				
+				if(a!=null)
+				{
+					b=(Integer.parseInt(ctx.NUMBER(i).getText()));
+					continue;
+				}
+				b=(Integer.parseInt(ctx.NUMBER(i).getText()));
+				continue;
 			}
 		}
-		*/
+		boolean eval=false;
+		switch(ctx.OP_SIMBOLS().getText())
+		{
+			case("|"):
+			{
+				if((a==0)&&(b==0))
+				{
+					return 0;
+				}
+			}
+			case("&"):
+			{
+				if((a==0)||(b==0))
+				{
+					return 0;
+				}
+			}
+			case(">"):
+			{
+				eval=a>b;
+			}
+			case("<"):
+			{
+				eval=a<b;
+			}
+			case(">="):
+			{
+				eval=a>=b;
+			}
+			case("<="):
+			{
+				eval=a<=b;
+			}
+			case("=="):
+			{
+				eval=a==b;
+			}
+			case("!="):
+			{
+				eval=a!=b;
+			}
+		}
+		if(eval!=false)
+		{
+			return(1);
+		}
 		return 0;
 	}
 	
@@ -392,30 +561,99 @@ public class MyVisitor extends ParserTBaseVisitor<Integer>
 	}
 	
 	 @Override
-	public Integer visitCalculo(CalculoContext ctx)//operadores unarios, falta realizarlo, PRIORIDAD
+	public Integer visitCalculo(CalculoContext ctx)//ok
 	{
-		return 0;
+		 	Double a=null;
+			Double b=null;
+			
+			for(int i=0; i<2 ;i++)
+			{
+				if(ctx.NAME_VAR()!=null)
+				{
+					if((buffer.get(ctx.NAME_VAR(i).getText()))!=null)
+					{
+						String type =((buffer.get(ctx.NAME_VAR(i).getText())).getType());
+						switch (type)
+						{
+							case("char"):
+							{
+								System.out.println("EPAEPAEPA COMO VAS A HACER MATES CON CARÁCTERES, NO TE BASTA CON ECHARTE DIFERENCIALES?");
+								return 1;
+							}
+							case("int"):
+							{
+								if(a!=null)
+								{
+									b=(Double.parseDouble((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+									continue;
+								}
+								a=(Double.parseDouble((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+								continue;
+							}
+							case("float"):
+							{
+								if(a!=null)
+								{
+									b=(Double.parseDouble((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+									continue;
+								}
+								a=(Double.parseDouble((buffer.get(ctx.NAME_VAR(i).getText())).getvalue()));
+								continue;
+							}
+							case("boolean"):
+							{
+								System.out.println("EPAEPAEPA COMO VAS A HACER MATES CON BOOLEANOS, TE HACE SENTIDO ESO?");
+								return 1;
+							}
+						}
+					}
+				}
+				if(ctx.NUMBER(i)!=null)
+				{
+					if(a!=null)
+					{
+						b=(Double.parseDouble(ctx.NUMBER(i).getText()));
+						continue;
+					}
+					b=(Double.parseDouble(ctx.NUMBER(i).getText()));
+					continue;
+				}
+			}
+			switch(ctx.MAT_SIMBOLS().getText())
+			{
+				case("+"):
+				{
+					forMath=(a+b);
+					break;
+				}
+				case("-"):
+				{
+					forMath=(a-b);
+					break;
+				}
+				case("*"):
+				{
+					forMath=(a*b);
+					break;
+				}
+				case("/"):
+				{
+					forMath=(a/b);
+					break;
+				}
+				case("^"):
+				{
+					forMath= a;
+					for(int i=1;i<b;i++)
+					{
+						forMath= forMath*a;
+					}
+					break;
+				}
+			}
+			return 0;
 	}
 	 
-	/*
-	@Override
-	public Integer visitHacer_mientras(Hacer_mientrasContext ctx)
-	{
-		return 0;
-	}
-
-	@Override
-	public Integer visitMientras(MientrasContext ctx)
-	{
-		return 0;
-	}
-
-	@Override
-	public Integer visitPara(ParaContext ctx)
-	{
-		return 0;
-	}
-	*/
 }
 
 
